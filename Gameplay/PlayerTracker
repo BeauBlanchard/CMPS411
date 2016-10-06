@@ -1,0 +1,42 @@
+using UnityEngine;
+using System.Collections;
+
+public class TrackPosition : MonoBehaviour {
+
+    float currentTime;                  //Keeps track of the current time
+    float timeStamp = 0;                //Used to calculate single lap times
+    float finish1 = 85;                 //Finish line x-coordinates
+    float finish2 = 95;
+    float checkPoint1 = 230;            //Checkpoint x-coordinates to ensure player has gone around the track
+    float checkPoint2 = 235;
+    float[] lapTimes = new float[5];    //Array that holds the lap times of the player
+    int count = 0;                      //Keeps track of what lap the player is on
+    int swap = 0;                       /*Switches from 0/1, allows entry into second if statement that records lap time
+                                         only if value is 0*/
+
+    void Start () {
+        Vector3 tempPos = transform.position;
+    }
+	
+	
+	void Update () {
+        if(transform.position.x > checkPoint1 && transform.position.x < checkPoint2)
+        {
+            swap = 0;
+        }
+
+        if (transform.position.x > finish1 && transform.position.x < finish2 && swap == 0)
+        {
+            lapTimes[count] = currentTime - timeStamp;
+            timeStamp = currentTime;
+
+            print("Lap Time = " + lapTimes[count]);
+            print("Total Time = " + currentTime);
+            count++;
+            swap = 1;
+        }
+
+        currentTime += 1 * Time.deltaTime;
+       
+	}
+}
